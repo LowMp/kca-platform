@@ -1,7 +1,9 @@
 'use client';
 
+import { useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay, EffectFade } from 'swiper/modules';
+import Typewriter from 'typewriter-effect';
 
 // Import Swiper styles
 import 'swiper/css';
@@ -10,6 +12,8 @@ import 'swiper/css/pagination';
 import 'swiper/css/effect-fade';
 
 const MainSlider = () => {
+    const [activeSlide, setActiveSlide] = useState(0);
+
     const slides = [
         {
             id: 1,
@@ -44,9 +48,10 @@ const MainSlider = () => {
                 navigation
                 pagination={{ clickable: true }}
                 autoplay={{ delay: 5000, disableOnInteraction: false }}
+                onSlideChange={(swiper) => setActiveSlide(swiper.realIndex)}
                 className="w-full h-full"
             >
-                {slides.map((slide) => (
+                {slides.map((slide, index) => (
                     <SwiperSlide key={slide.id}>
                         <div className="relative w-full h-full">
                             {/* Background Image */}
@@ -62,8 +67,20 @@ const MainSlider = () => {
                                 <span className="inline-block px-4 py-2 border border-white/50 rounded-full text-sm mb-4 w-fit animate-fade-in-up">
                                     {slide.subtitle}
                                 </span>
-                                <h2 className="text-4xl md:text-6xl font-bold mb-6 leading-tight animate-fade-in-up delay-100">
-                                    {slide.title}
+                                <h2 className="text-4xl md:text-6xl font-bold mb-6 leading-tight animate-fade-in-up delay-100 min-h-[1.2em]">
+                                    {activeSlide === index ? (
+                                        <Typewriter
+                                            options={{
+                                                strings: [slide.title],
+                                                autoStart: true,
+                                                loop: false,
+                                                delay: 50,
+                                                cursor: "",
+                                            }}
+                                        />
+                                    ) : (
+                                        <span className="opacity-0">{slide.title}</span>
+                                    )}
                                 </h2>
                                 <p className="text-lg md:text-xl text-slate-200 animate-fade-in-up delay-200">
                                     {slide.desc}
