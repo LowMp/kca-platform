@@ -33,8 +33,8 @@ export default async function LmsLayout({
     }
 
     return (
-        <html lang="ko">
-            <body className={`${inter.className} bg-slate-50`}>
+        <html lang="ko" suppressHydrationWarning>
+            <body className={`${inter.className} bg-slate-50`} suppressHydrationWarning>
                 <LmsHeader user={user} />
                 <div className="flex pt-16 min-h-screen">
                     {/* Sidebar: hidden on mobile, fixed on desktop */}

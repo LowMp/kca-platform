@@ -38,6 +38,8 @@ export async function signup(formData: FormData) {
             data: {
                 name: formData.get('name') as string,
                 phone: formData.get('phone') as string,
+                birthdate: formData.get('birthdate') as string,
+                address: `${formData.get('address') as string} ${formData.get('address_detail') as string}`,
             },
         },
     }

@@ -43,7 +43,8 @@ export default function LmsSidebar({ user, profile }: LmsSidebarProps) {
 
             {/* Navigation Menu */}
             <nav className="p-4">
-                <ul className="space-y-1">
+                <div className="mb-2 px-4 text-xs font-bold text-slate-400">학습 메뉴</div>
+                <ul className="space-y-1 mb-6">
                     {MENU_ITEMS.map((item) => {
                         const isActive = pathname === item.href;
                         return (
@@ -51,8 +52,8 @@ export default function LmsSidebar({ user, profile }: LmsSidebarProps) {
                                 <Link
                                     href={item.href}
                                     className={`block px-4 py-3 rounded-lg text-sm font-medium transition-colors ${isActive
-                                            ? 'bg-blue-600 text-white shadow-md shadow-blue-200'
-                                            : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
+                                        ? 'bg-blue-600 text-white shadow-md shadow-blue-200'
+                                        : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
                                         }`}
                                 >
                                     {item.title}
@@ -61,6 +62,26 @@ export default function LmsSidebar({ user, profile }: LmsSidebarProps) {
                         );
                     })}
                 </ul>
+
+                {/* Admin Menu (Only visible to admins) */}
+                {profile?.role === 'admin' && (
+                    <>
+                        <div className="mb-2 px-4 text-xs font-bold text-slate-400">관리자 메뉴</div>
+                        <ul className="space-y-1">
+                            <li>
+                                <Link
+                                    href="/admin/users"
+                                    className={`block px-4 py-3 rounded-lg text-sm font-medium transition-colors ${pathname.includes('/admin')
+                                        ? 'bg-slate-800 text-white shadow-md'
+                                        : 'text-slate-600 hover:bg-slate-100'
+                                        }`}
+                                >
+                                    회원 명부 관리
+                                </Link>
+                            </li>
+                        </ul>
+                    </>
+                )}
             </nav>
 
             {/* Customer Center Widget */}
