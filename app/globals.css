@@ -2,6 +2,13 @@
 
 @theme {
   --animate-fade-in-up: fade-in-up 0.8s ease-out forwards;
+  --animate-wave: wave 20s linear infinite;
+  --animate-float: float 6s ease-in-out infinite;
+
+  /* KWWA Inspired Colors */
+  --color-kwwa-blue-dark: #003399;
+  --color-kwwa-blue-light: #e6f0ff;
+  --color-kwwa-sky: #00aaff;
 }
 
 @keyframes fade-in-up {
@@ -15,6 +22,17 @@
   }
 }
 
+@keyframes wave {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(-25%); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
 /* Base Styles */
 :root {
   --background: #ffffff;
@@ -24,4 +42,19 @@
 body {
   background: var(--background);
   color: var(--foreground);
+}
+
+/* Glassmorphism Utilities */
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* KWWA Pattern Background */
+.kwwa-pattern {
+  background-color: #f8fbff;
+  background-image: radial-gradient(at 0% 0%, hsla(210,100%,98%,1) 0, transparent 50%), 
+                    radial-gradient(at 50% 0%, hsla(215,100%,97%,1) 0, transparent 50%), 
+                    radial-gradient(at 100% 0%, hsla(220,100%,96%,1) 0, transparent 50%);
 }

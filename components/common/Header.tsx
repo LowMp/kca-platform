@@ -3,6 +3,12 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { User } from '@supabase/supabase-js';
+import { logout } from '@/app/auth/actions';
+
+interface HeaderProps {
+    user: User | null;
+}
 
 const MENU_ITEMS = [
     {
@@ -31,7 +37,7 @@ const MENU_ITEMS = [
     }
 ];
 
-const Header = () => {
+const Header = ({ user }: HeaderProps) => {
     const [activeMenu, setActiveMenu] = useState<number | null>(null);
 
     return (
@@ -62,14 +68,32 @@ const Header = () => {
                     </ul>
                 </nav>
 
-                {/* Login/Signup */}
+                {/* Login/Signup/Logout */}
                 <div className="hidden lg:flex items-center space-x-4">
-                    <Link href="#" className="text-sm font-medium text-slate-600 hover:text-slate-900">
-                        로그인
-                    </Link>
-                    <Link href="#" className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-full hover:bg-blue-700 transition-colors">
-                        회원가입
-                    </Link>
+                    {user ? (
+                        <>
+                            <span className="text-sm font-medium text-slate-600">
+                                {user.email?.split('@')[0]}님
+                            </span>
+                            <Link href="/dashboard" className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-full hover:bg-blue-700 transition-colors">
+                                강의실 입장
+                            </Link>
+                            <form action={logout}>
+                                <button className="text-sm font-medium text-slate-600 hover:text-red-600 ml-2">
+                                    로그아웃
+                                </button>
+                            </form>
+                        </>
+                    ) : (
+                        <>
+                            <Link href="/login" className="text-sm font-medium text-slate-600 hover:text-slate-900">
+                                로그인
+                            </Link>
+                            <Link href="/signup" className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-full hover:bg-blue-700 transition-colors">
+                                회원가입
+                            </Link>
+                        </>
+                    )}
                 </div>
             </div>
 
@@ -91,7 +115,10 @@ const Header = () => {
                                         <ul className="space-y-2">
                                             {menu.items.map((item, itemIndex) => (
                                                 <li key={itemIndex}>
-                                                    <Link href="#" className="text-sm text-slate-600 hover:text-blue-600 hover:translate-x-1 block transition-all">
+                                                    <Link
+                                                        href={item === "협회장인삿말" ? "/association/greeting" : "#"}
+                                                        className="text-sm text-slate-600 hover:text-blue-600 hover:translate-x-1 block transition-all"
+                                                    >
                                                         {item}
                                                     </Link>
                                                 </li>

@@ -22,7 +22,7 @@ const SubSidebar = ({ title, items, activeItem }: SubSidebarProps) => {
                     {items.map((item, index) => (
                         <li key={index}>
                             <Link
-                                href="#"
+                                href={item === "협회장인삿말" ? "/association/greeting" : "#"}
                                 className={`block px-6 py-4 text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-colors ${item === activeItem ? 'bg-blue-50 text-blue-600 font-bold border-l-4 border-blue-600' : ''
                                     }`}
                             >

@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
+import "../globals.css";
 import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
+import { createClient } from "@/lib/supabase/server";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -11,15 +12,18 @@ export const metadata: Metadata = {
   description: "공식 자격증 발급기관 한국자격증협회입니다.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
   return (
     <html lang="ko">
       <body className={inter.className}>
-        <Header />
+        <Header user={user} />
         <main className="min-h-screen pt-20">
           {children}
         </main>
