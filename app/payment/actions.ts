@@ -38,8 +38,12 @@ export async function createOrder(productName: string, amount: number): Promise<
     return { success: true, merchant_uid };
 }
 
+import { createAdminClient } from '@/lib/supabase/admin';
+
 export async function completePayment(merchant_uid: string, imp_uid: string): Promise<{ success: boolean; message?: string }> {
-    const supabase = await createClient();
+    // SECURITY: Use Admin Client to bypass RLS for payment confirmation
+    // Users cannot update their own 'status' to 'paid' in RLS (security rule), so we must use Service Role here.
+    const supabase = createAdminClient();
 
     // In a real world, we MUST verify the payment with Portone REST API using `imp_uid`
     // For MVP/Test mode, we skip the server-side verification with Portone API
