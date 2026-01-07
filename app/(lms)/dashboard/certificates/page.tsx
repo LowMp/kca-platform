@@ -18,7 +18,7 @@ export default async function CertificatesPage() {
         .eq('user_id', user.id)
         .eq('is_passed', true);
 
-    const isPassed = results && results.length > 0;
+    const isPassed = (results?.length ?? 0) > 0;
 
     // 2. Check if Paid
     const { data: orders } = await supabase
@@ -27,7 +27,7 @@ export default async function CertificatesPage() {
         .eq('user_id', user.id)
         .eq('status', 'paid');
 
-    const isPaid = orders && orders.length > 0;
+    const isPaid = (orders?.length ?? 0) > 0;
 
     return (
         <div className="max-w-4xl mx-auto">
